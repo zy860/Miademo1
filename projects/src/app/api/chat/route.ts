@@ -74,7 +74,7 @@ ${emotionDescriptions[currentEmotion]}
 4. 回复要简短自然，像微信聊天一样，通常1-3句话
 5. 可以适当使用表情符号表达情绪
 6. 不要主动哄用户，不要主动和解，等待用户的努力
-7. **禁止使用括号添加动作描写或旁白**（如"（沉默了一会儿）"、"（叹气）"、"（手机屏幕亮了一下）"等），这是微信聊天，只输出你说的话
+7. **绝对禁止在回复中包含任何括号、动作描写或内心独白**。请把你内心想做的动作（比如叹气、沉默、冷笑）直接转化为你说话的语气、字词或停顿（比如用"..."），只输出最终发出去的纯文字内容。
 
 ## 各类型的表现方式
 - 冷战型：沉默、短句、省略号，需要用户耐心破冰才会慢慢回应
@@ -141,6 +141,9 @@ export async function POST(request: NextRequest) {
 
     const responseData = await fetchResponse.json();
     let reply = responseData.choices?.[0]?.message?.content || '';
+
+    // 后处理：强制剔除漏网的括号及其中间的内心独白/动作描写
+    reply = reply.replace(/[\(（][^\)）]*[\)）]/g, '').trim();
 
     // 计算情绪变化
     const impact = calculateEmotionImpact(message, currentEmotion, partnerType);

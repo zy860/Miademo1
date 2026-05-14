@@ -245,48 +245,48 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-[#faf9f8] dark:bg-[#121212] flex flex-col font-light">
       {/* 隐藏的音频元素 */}
       
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-10">
+      <div className="bg-white/80 dark:bg-stone-900/80 backdrop-blur-md border-b border-stone-200/50 dark:border-stone-800/50 shadow-sm sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3 flex items-center">
           <button
             onClick={() => router.push('/')}
-            className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 mr-3"
+            className="text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 mr-3 transition-colors"
           >
             ←
           </button>
           <div className="flex items-center flex-1">
-            <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-xl">
+            <div className="w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-xl shadow-sm">
               {gender === 'male' ? '👨' : '👩'}
             </div>
             <div className="ml-3">
-              <div className="font-medium text-gray-800 dark:text-white">{partnerName}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                {isTyping ? '正在输入...' : playingMessageId ? '🔊 正在播放...' : '在线'}
+              <div className="font-medium text-stone-800 dark:text-stone-100 tracking-wide">{partnerName}</div>
+              <div className="text-xs text-stone-500 dark:text-stone-400">
+                {isTyping ? '正在输入...' : playingMessageId ? '🔊 正在播放...' : 'Online'}
               </div>
             </div>
           </div>
           {/* 自动播放开关 */}
           <button
             onClick={() => setAutoPlayEnabled(!autoPlayEnabled)}
-            className={`text-sm px-2 py-1 rounded ${
+            className={`text-xs px-3 py-1.5 rounded-full transition-all border ${
               autoPlayEnabled
-                ? 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300'
-                : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+                ? 'bg-stone-800 text-white border-stone-800 dark:bg-stone-200 dark:text-stone-900 dark:border-stone-200'
+                : 'bg-transparent text-stone-500 border-stone-300 dark:border-stone-700'
             }`}
           >
-            {autoPlayEnabled ? '🔊 自动' : '🔇 静音'}
+            {autoPlayEnabled ? 'Auto-play' : 'Muted'}
           </button>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto pb-4">
-        <div className="max-w-lg mx-auto px-4 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto pb-6">
+        <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
           {/* Scene hint */}
-          <div className="text-center text-xs text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 inline-block mx-auto w-full">
+          <div className="text-center text-xs text-stone-500 dark:text-stone-400 bg-stone-200/50 dark:bg-stone-800/50 rounded-full px-4 py-1.5 inline-block mx-auto max-w-[80%] backdrop-blur-sm border border-stone-200/50 dark:border-stone-700/50">
             {scene.icon} {scene.name} · {partner.name}型
           </div>
 
@@ -296,29 +296,29 @@ export default function ChatPage() {
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.role === 'assistant' && (
-                <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-sm mr-2 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-sm mr-3 shrink-0 shadow-sm">
                   {gender === 'male' ? '👨' : '👩'}
                 </div>
               )}
               <div
-                className={`max-w-[70%] rounded-lg px-4 py-2 ${
+                className={`max-w-[75%] rounded-2xl px-5 py-3 shadow-sm ${
                   message.role === 'user'
-                    ? 'bg-green-500 text-white'
-                    : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow'
+                    ? 'bg-stone-800 text-white dark:bg-stone-200 dark:text-stone-900 rounded-tr-sm'
+                    : 'bg-white/90 dark:bg-stone-800/90 text-stone-800 dark:text-stone-100 backdrop-blur-md border border-stone-200/60 dark:border-stone-700/60 rounded-tl-sm'
                 }`}
               >
-                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                <p className="text-[15px] whitespace-pre-wrap leading-relaxed">{message.content}</p>
                 {message.sticker && (
-                  <div className="text-2xl mt-1">{message.sticker}</div>
+                  <div className="text-3xl mt-2">{message.sticker}</div>
                 )}
                 {/* AI消息显示播放按钮 */}
                 {message.role === 'assistant' && message.audioUri && (
                   <button
                     onClick={() => playAudio(message.audioUri!, message.id)}
-                    className={`mt-2 text-xs flex items-center gap-1 ${
+                    className={`mt-2 text-xs flex items-center gap-1.5 transition-colors ${
                       playingMessageId === message.id
-                        ? 'text-green-500 animate-pulse'
-                        : 'text-gray-400 hover:text-gray-600'
+                        ? 'text-stone-800 dark:text-stone-200 animate-pulse'
+                        : 'text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300'
                     }`}
                     disabled={playingMessageId === message.id}
                   >
@@ -339,15 +339,15 @@ export default function ChatPage() {
                             <path d="M8 5v14l11-7z" />
                           </svg>
                         </span>
-                        播放语音
+                        Play Voice
                       </>
                     )}
                   </button>
                 )}
               </div>
               {message.role === 'user' && (
-                <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm ml-2 shrink-0">
-                  我
+                <div className="w-8 h-8 rounded-full bg-[#d4b5b0] dark:bg-rose-900/50 flex items-center justify-center text-white dark:text-rose-200 text-xs ml-3 shrink-0 shadow-sm border border-[#c3a49f] dark:border-rose-800">
+                  Me
                 </div>
               )}
             </div>
@@ -356,14 +356,14 @@ export default function ChatPage() {
           {/* Typing indicator */}
           {isTyping && (
             <div className="flex justify-start">
-              <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-sm mr-2 shrink-0">
+              <div className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center text-sm mr-3 shrink-0 shadow-sm">
                 {gender === 'male' ? '👨' : '👩'}
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg px-4 py-2 shadow">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <div className="bg-white/90 dark:bg-stone-800/90 backdrop-blur-md border border-stone-200/60 dark:border-stone-700/60 rounded-2xl rounded-tl-sm px-5 py-3 shadow-sm">
+                <div className="flex space-x-1.5 items-center h-full">
+                  <div className="w-1.5 h-1.5 bg-stone-400/70 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <div className="w-1.5 h-1.5 bg-stone-400/70 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <div className="w-1.5 h-1.5 bg-stone-400/70 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             </div>
@@ -381,25 +381,25 @@ export default function ChatPage() {
       )}
 
       {/* Input */}
-      <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 sticky bottom-0">
-        <div className="max-w-lg mx-auto px-4 py-3">
-          <div className="flex items-center gap-2">
+      <div className="bg-transparent sticky bottom-0 pb-6 pt-2 pointer-events-none">
+        <div className="max-w-lg mx-auto px-4">
+          <div className="flex items-center gap-2 p-2 bg-white/80 dark:bg-stone-800/80 backdrop-blur-xl border border-stone-200/80 dark:border-stone-700/80 shadow-lg rounded-full pointer-events-auto">
             <input
               ref={inputRef}
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="输入消息..."
+              placeholder="Say something..."
               disabled={status !== 'playing' || isTyping}
-              className="flex-1 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+              className="flex-1 px-4 py-2 bg-transparent text-stone-800 dark:text-stone-100 focus:outline-none disabled:opacity-50 font-light placeholder:text-stone-400"
             />
             <Button
               onClick={handleSend}
               disabled={!inputValue.trim() || status !== 'playing' || isTyping}
-              className="bg-green-500 hover:bg-green-600 text-white rounded-full px-6 disabled:opacity-50"
+              className="bg-stone-800 hover:bg-stone-700 dark:bg-stone-200 dark:hover:bg-white text-white dark:text-stone-900 rounded-full px-6 py-2 disabled:opacity-50 transition-all font-medium"
             >
-              发送
+              Send
             </Button>
           </div>
         </div>

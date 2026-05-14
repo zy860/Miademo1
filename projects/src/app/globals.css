@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -43,7 +44,7 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
   --font-sans:
-    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', ui-sans-serif,
+    'Outfit', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', ui-sans-serif,
     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --font-mono:
@@ -133,5 +134,5 @@
 }
 
 body {
-  @apply font-sans;
+  @apply font-sans antialiased tracking-wide;
 }

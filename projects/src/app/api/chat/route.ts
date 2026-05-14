@@ -98,12 +98,11 @@ export async function POST(request: NextRequest) {
       emotionValues,
     } = body;
 
-    // 提取请求头
-    const customHeaders = HeaderUtils.extractForwardHeaders(request.headers);
-
-    // 初始化 LLM 客户端
-    const config = new Config();
-    const client = new LLMClient(config, customHeaders);
+    // 调用 DeepSeek API
+    const deepseekApiKey = process.env.DEEPSEEK_API_KEY;
+    if (!deepseekApiKey) {
+      throw new Error('DEEPSEEK_API_KEY is not set in .env');
+    }
 
     // 构建消息历史
     const messages = [
@@ -121,18 +120,27 @@ export async function POST(request: NextRequest) {
       },
     ];
 
-    // 调用 LLM
-    const stream = client.stream(messages, {
-      model: 'doubao-seed-1-6-251015',
-      temperature: 0.8,
+    const fetchResponse = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${deepseekApiKey}`
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: messages,
+        temperature: 0.8,
+      })
     });
 
-    let reply = '';
-    for await (const chunk of stream) {
-      if (chunk.content) {
-        reply += chunk.content.toString();
-      }
+    if (!fetchResponse.ok) {
+      const errorText = await fetchResponse.text();
+      console.error('DeepSeek API Error:', errorText);
+      throw new Error(`DeepSeek API returned ${fetchResponse.status}`);
     }
+
+    const responseData = await fetchResponse.json();
+    let reply = responseData.choices?.[0]?.message?.content || '';
 
     // 计算情绪变化
     const impact = calculateEmotionImpact(message, currentEmotion, partnerType);
@@ -160,9 +168,15 @@ export async function POST(request: NextRequest) {
       sticker = getRandomSticker(newEmotion);
     }
 
-    // 调用 TTS 生成语音
+    // 调用 TTS 生成语音 (保留原有逻辑，在本地可能会静默失败)
     let audioUri: string | undefined;
     try {
+      const customHeaders = HeaderUtils.extractForwardHeaders(request.headers);
+      const config = new Config({
+        apiKey: process.env.COZE_API_TOKEN || process.env.COZE_LOOP_API_TOKEN || '',
+        baseUrl: process.env.COZE_INTEGRATION_BASE_URL,
+        modelBaseUrl: process.env.COZE_INTEGRATION_MODEL_BASE_URL,
+      });
       const ttsClient = new TTSClient(config, customHeaders);
       const speaker = TTS_SPEAKERS[gender] || TTS_SPEAKERS['female'];
       const emotionParams = EMOTION_TTS_PARAMS[newEmotion] || EMOTION_TTS_PARAMS.calm;

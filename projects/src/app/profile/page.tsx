@@ -63,48 +63,51 @@ export default function ProfilePage() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">加载中...</div>;
+    return <div className="min-h-screen flex items-center justify-center font-light text-stone-500 tracking-wide">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 p-4 md:p-8">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#faf9f8] dark:bg-[#121212] p-4 md:p-8 font-light">
+      <div className="max-w-3xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
-          <Button variant="ghost" onClick={() => router.push('/')}>
-            ← 返回首页
+          <Button variant="ghost" onClick={() => router.push('/')} className="text-stone-500 hover:text-stone-800 dark:hover:text-stone-200 transition-colors">
+            ← Home
           </Button>
-          <div className="text-lg font-medium">
-            👤 {user?.username} 的个人主页
+          <div className="text-[15px] font-medium tracking-wide text-stone-800 dark:text-stone-200">
+            {user?.username}'s Journey
           </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>游戏记录</CardTitle>
+        <Card className="bg-white/80 dark:bg-stone-900/60 backdrop-blur-xl border border-stone-200/60 dark:border-stone-800/60 shadow-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-light tracking-wide text-stone-800 dark:text-stone-100">Records</CardTitle>
           </CardHeader>
           <CardContent>
             {records.length === 0 ? (
-              <div className="text-center py-8 text-slate-500">
-                暂无游戏记录，快去尝试一下吧！
+              <div className="text-center py-12 text-stone-400 dark:text-stone-500 text-[15px] tracking-wide">
+                No journeys recorded yet. Time to explore.
               </div>
             ) : (
               <div className="space-y-4">
                 {records.map(record => (
-                  <div key={record.id} className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-lg border shadow-sm">
-                    <div className="space-y-1">
-                      <div className="font-medium text-lg flex items-center gap-2">
+                  <div key={record.id} className="group flex flex-col md:flex-row items-start md:items-center justify-between p-5 bg-white/50 dark:bg-stone-800/30 rounded-xl border border-stone-100 dark:border-stone-800/50 hover:shadow-sm transition-all relative overflow-hidden">
+                    {/* Status Indicator Line */}
+                    <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${record.result === 'success' ? 'bg-[#d4b5b0]' : 'bg-stone-300 dark:bg-stone-600'}`} />
+                    
+                    <div className="space-y-1.5 pl-2">
+                      <div className="font-medium text-[16px] flex items-center gap-3 text-stone-800 dark:text-stone-200 tracking-wide">
                         <span>{getSceneName(record.scenario)}</span>
-                        <span className={`text-sm px-2 py-0.5 rounded-full ${record.result === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                          {record.result === 'success' ? '通关成功' : '遗憾离场'}
+                        <span className={`text-[11px] px-2.5 py-0.5 rounded-full uppercase tracking-wider ${record.result === 'success' ? 'bg-stone-100 text-[#d4b5b0] dark:bg-stone-800 dark:text-rose-300' : 'bg-stone-100 text-stone-500 dark:bg-stone-800 dark:text-stone-400'}`}>
+                          {record.result === 'success' ? 'Resolved' : 'Unresolved'}
                         </span>
                       </div>
-                      <div className="text-sm text-slate-500">
-                        游玩时间：{formatDate(record.played_at)}
+                      <div className="text-[13px] text-stone-400 dark:text-stone-500">
+                        {formatDate(record.played_at)}
                       </div>
                     </div>
-                    <div className="mt-2 md:mt-0 text-right">
-                      <div className="text-sm text-slate-500">最终好感度</div>
-                      <div className={`text-xl font-bold ${record.result === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                    <div className="mt-4 md:mt-0 text-right pr-2">
+                      <div className="text-[11px] text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-1">Connection</div>
+                      <div className={`text-xl font-light ${record.result === 'success' ? 'text-[#c3a49f] dark:text-rose-300' : 'text-stone-400 dark:text-stone-500'}`}>
                         {record.final_score}
                       </div>
                     </div>

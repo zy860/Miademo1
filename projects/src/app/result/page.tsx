@@ -71,114 +71,114 @@ export default function ResultPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-[#faf9f8] to-[#f5f3f0] dark:from-[#1a191b] dark:to-[#121212] flex items-center justify-center p-4 font-light">
       {/* Confetti effect */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50">
-          {[...Array(50)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <div
               key={i}
-              className="absolute text-2xl animate-fall"
+              className="absolute text-xl animate-fall opacity-60"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `-20px`,
-                animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${3 + Math.random() * 3}s`,
               }}
             >
-              {['❤️', '🎉', '💕', '✨', '💖'][Math.floor(Math.random() * 5)]}
+              {['✨', '🤍', '🤎', '✨'][Math.floor(Math.random() * 4)]}
             </div>
           ))}
         </div>
       )}
 
-      <Card className="max-w-md w-full">
-        <CardContent className="pt-8 pb-6 px-6 text-center">
+      <Card className="max-w-md w-full bg-white/80 dark:bg-stone-900/60 backdrop-blur-xl border border-stone-200/60 dark:border-stone-800/60 shadow-lg">
+        <CardContent className="pt-10 pb-8 px-8 text-center">
           {status === 'success' ? (
             <>
               {/* Success */}
-              <div className="text-6xl mb-4">🎉</div>
-              <h1 className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-                和解成功！
+              <div className="w-16 h-16 bg-stone-100 dark:bg-stone-800 rounded-full flex items-center justify-center text-2xl mx-auto mb-6 shadow-sm border border-stone-200 dark:border-stone-700">✨</div>
+              <h1 className="text-2xl font-light tracking-wide text-stone-800 dark:text-stone-100 mb-3">
+                Connection Restored
               </h1>
-              <p className="text-slate-600 dark:text-slate-300 mb-6">
-                恭喜你成功化解了这次冲突！
+              <p className="text-stone-500 dark:text-stone-400 text-[15px] leading-relaxed mb-8">
+                You successfully navigated the emotional landscape.
                 <br />
-                {partnerName}原谅了你，你们的关系更进一步了 💕
+                {partnerName} feels heard and understood.
               </p>
 
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 mb-6 text-left">
-                <p className="text-sm text-green-800 dark:text-green-200 font-medium mb-2">
-                  💡 这次沟通的收获
+              <div className="bg-stone-50/80 dark:bg-stone-800/30 border border-stone-100 dark:border-stone-800 rounded-2xl p-5 mb-8 text-left backdrop-blur-sm">
+                <p className="text-[13px] text-stone-800 dark:text-stone-200 font-medium tracking-wide uppercase mb-3 opacity-80">
+                  Reflections
                 </p>
-                <ul className="text-sm text-green-700 dark:text-green-300 space-y-1">
-                  <li>• 真诚的道歉比解释更有力量</li>
-                  <li>• 认可对方的感受是和解的第一步</li>
-                  <li>• 承诺改变需要具体的行动</li>
+                <ul className="text-[14px] text-stone-600 dark:text-stone-400 space-y-2 leading-relaxed">
+                  <li className="flex items-start gap-2"><span className="text-[#d4b5b0] mt-1">✦</span> Sincere apologies hold more weight than explanations.</li>
+                  <li className="flex items-start gap-2"><span className="text-[#d4b5b0] mt-1">✦</span> Validating feelings is the first step to healing.</li>
+                  <li className="flex items-start gap-2"><span className="text-[#d4b5b0] mt-1">✦</span> Empathy bridges the deepest gaps.</li>
                 </ul>
               </div>
 
-              <div className="text-slate-500 dark:text-slate-400 text-sm mb-6">
-                场景：{scene.icon} {scene.name} · 伴侣：{partner.avatar} {partner.name}型
+              <div className="text-stone-400 dark:text-stone-500 text-[13px] tracking-wide mb-8">
+                Scenario: {scene.name} &nbsp;·&nbsp; Partner: {partner.name}
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <Button
                   onClick={handleNewGame}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white"
+                  className="w-full bg-stone-800 hover:bg-stone-700 dark:bg-stone-200 dark:hover:bg-white text-white dark:text-stone-900 rounded-full font-medium py-6 shadow-sm transition-all"
                 >
-                  尝试其他场景 🎮
+                  Explore New Journey
                 </Button>
                 <Button
                   onClick={handleRetry}
                   variant="outline"
-                  className="w-full"
+                  className="w-full rounded-full py-6 font-medium border-stone-200 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-900 transition-all"
                 >
-                  再练习一次
+                  Experience Again
                 </Button>
               </div>
             </>
           ) : (
             <>
               {/* Failed */}
-              <div className="text-6xl mb-4">💔</div>
-              <h1 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">
-                关系破裂
+              <div className="w-16 h-16 bg-rose-50 dark:bg-rose-900/30 border border-rose-100 dark:border-rose-900/50 rounded-full flex items-center justify-center text-2xl mx-auto mb-6 shadow-sm">🤍</div>
+              <h1 className="text-2xl font-light tracking-wide text-rose-900/80 dark:text-rose-200/80 mb-3">
+                Connection Lost
               </h1>
-              <p className="text-slate-600 dark:text-slate-300 mb-6">
-                很遗憾，{partnerName}选择了离开...
+              <p className="text-stone-500 dark:text-stone-400 text-[15px] leading-relaxed mb-8">
+                {partnerName} chose to distance themselves...
                 <br />
-                也许下次可以尝试不同的沟通方式。
+                Every challenge is an opportunity to learn.
               </p>
 
-              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 mb-6 text-left">
-                <p className="text-sm text-amber-800 dark:text-amber-200 font-medium mb-2">
-                  💡 可能的问题
+              <div className="bg-stone-50/80 dark:bg-stone-800/30 border border-stone-100 dark:border-stone-800 rounded-2xl p-5 mb-8 text-left backdrop-blur-sm">
+                <p className="text-[13px] text-stone-800 dark:text-stone-200 font-medium tracking-wide uppercase mb-3 opacity-80">
+                  Insights
                 </p>
-                <ul className="text-sm text-amber-700 dark:text-amber-300 space-y-1">
-                  <li>• 情绪过于激动，说了伤人的话</li>
-                  <li>• 没有认真倾听对方的感受</li>
-                  <li>• 道歉不够真诚或时机不对</li>
+                <ul className="text-[14px] text-stone-600 dark:text-stone-400 space-y-2 leading-relaxed">
+                  <li className="flex items-start gap-2"><span className="text-[#c3a49f] mt-1">✦</span> High emotions can cloud genuine intentions.</li>
+                  <li className="flex items-start gap-2"><span className="text-[#c3a49f] mt-1">✦</span> Listening is often more powerful than speaking.</li>
+                  <li className="flex items-start gap-2"><span className="text-[#c3a49f] mt-1">✦</span> Timing is crucial when offering an apology.</li>
                 </ul>
               </div>
 
-              <div className="text-slate-500 dark:text-slate-400 text-sm mb-6">
-                场景：{scene.icon} {scene.name} · 伴侣：{partner.avatar} {partner.name}型
+              <div className="text-stone-400 dark:text-stone-500 text-[13px] tracking-wide mb-8">
+                Scenario: {scene.name} &nbsp;·&nbsp; Partner: {partner.name}
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <Button
                   onClick={handleRetry}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white"
+                  className="w-full bg-[#d4b5b0] hover:bg-[#c3a49f] text-white rounded-full font-medium py-6 shadow-sm transition-all"
                 >
-                  重新尝试 🔄
+                  Try Again
                 </Button>
                 <Button
                   onClick={handleNewGame}
                   variant="outline"
-                  className="w-full"
+                  className="w-full rounded-full py-6 font-medium border-stone-200 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-900 transition-all"
                 >
-                  选择其他场景
+                  Choose New Scenario
                 </Button>
               </div>
             </>
@@ -187,8 +187,8 @@ export default function ResultPage() {
       </Card>
 
       {/* Footer */}
-      <div className="fixed bottom-4 text-center text-slate-500 dark:text-slate-400 text-sm">
-        <p>每一次练习，都是成长的机会 ❤️</p>
+      <div className="fixed bottom-8 text-center text-stone-400 dark:text-stone-500 text-[13px] tracking-wide">
+        <p>Every practice is a chance to grow.</p>
       </div>
 
       <style jsx>{`
